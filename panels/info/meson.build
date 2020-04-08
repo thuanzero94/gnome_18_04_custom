@@ -45,7 +45,7 @@ sources = files(gsd_sources) + files(
 )
 
 resource_data = files(
-  'GnomeLogoVerticalMedium.svg',
+  'cof_orange_hex.svg',
   'info-default-apps.ui',
   'info-overview.ui',
   'info-removable-media.ui'

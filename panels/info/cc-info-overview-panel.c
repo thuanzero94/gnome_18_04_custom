@@ -602,6 +602,7 @@ get_cpu_info (const glibtop_sysinfo *info)
   gpointer       key, value;
   int            i;
   int            j;
+  FILE *fp = NULL;
 
   counts = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -644,8 +645,22 @@ get_cpu_info (const glibtop_sysinfo *info)
       else
         g_string_append_printf (cpu, "%s ", cleanedup);
     }
-
-  return g_strdup (cpu->str);
+  
+  char cpu_tmp[256];
+  fp = fopen("/etc/c_tmp.txt", "r");
+  if (fp == NULL)
+        return g_strdup ("Unknow");
+  if (fgets(cpu_tmp, sizeof(cpu_tmp), fp) != NULL){
+    int len = strlen(cpu_tmp);
+    if (cpu_tmp[len - 1] == '\n') {  // FAILS when len == 0
+      cpu_tmp[len -1] = '\0';
+    }
+  } else {
+    sprintf(cpu_tmp, "Unknow");
+  }
+  fclose(fp);
+  //return g_strdup (cpu->str);
+        return g_strdup ((char *)cpu_tmp);
 }
 
 static void

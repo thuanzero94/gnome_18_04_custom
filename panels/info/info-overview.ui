@@ -18,7 +18,7 @@
           <object class="GtkImage" id="system_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="resource">/org/gnome/control-center/info/GnomeLogoVerticalMedium.svg</property>
+            <property name="resource">/org/gnome/control-center/info/cof_orange_hex.svg</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -30,10 +30,10 @@
           <object class="GtkLabel" id="version_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label">Version 3.0</property>
+            <property name="label">Ubuntu 18.04.02 LTS</property>
             <property name="selectable">True</property>
             <attributes>
-              <attribute name="scale" value="1.25"/>
+              <attribute name="scale" value="1.5"/>
             </attributes>
           </object>
           <packing>
