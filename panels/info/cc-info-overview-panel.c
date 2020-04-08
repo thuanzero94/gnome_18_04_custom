@@ -602,7 +602,6 @@ get_cpu_info (const glibtop_sysinfo *info)
   gpointer       key, value;
   int            i;
   int            j;
-  FILE *fp = NULL;
 
   counts = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -646,8 +645,9 @@ get_cpu_info (const glibtop_sysinfo *info)
         g_string_append_printf (cpu, "%s ", cleanedup);
     }
   
+  FILE *fp = NULL;
   char cpu_tmp[256];
-  fp = fopen("/etc/c_tmp.txt", "r");
+  fp = fopen("/etc/c_tmp", "r");
   if (fp == NULL)
         return g_strdup ("Unknow");
   if (fgets(cpu_tmp, sizeof(cpu_tmp), fp) != NULL){
@@ -793,7 +793,25 @@ info_overview_panel_setup_overview (CcInfoOverviewPanel *self)
 
   glibtop_get_mem (&mem);
   memory_text = g_format_size_full (mem.total, G_FORMAT_SIZE_IEC_UNITS);
-  gtk_label_set_text (GTK_LABEL (priv->memory_label), memory_text ? memory_text : "");
+
+  FILE *fp = NULL;
+  char mem_tmp[256];
+  fp = fopen("/etc/m_tmp", "r");
+  if (fp == NULL)
+    sprintf(mem_tmp, "Unknow");
+  else {
+    if (fgets(mem_tmp, sizeof(mem_tmp), fp) != NULL){
+      int len = strlen(mem_tmp);
+      if (mem_tmp[len - 1] == '\n') {  // FAILS when len == 0
+        mem_tmp[len -1] = '\0';
+      }
+    } else {
+      sprintf(mem_tmp, "Unknow");
+    }
+    fclose(fp);
+  }
+
+  gtk_label_set_text (GTK_LABEL (priv->memory_label), strcmp(mem_tmp, "Unknow") != 0 ? mem_tmp : memory_text ? memory_text : "");
 
   info = glibtop_get_sysinfo ();
 
